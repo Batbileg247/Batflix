@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button";
 import * as React from "react";
 import {
@@ -9,31 +10,135 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Film, Moon, Search, Play, ArrowRight } from "lucide-react";
+import {
+  Film,
+  Moon,
+  Search,
+  Play,
+  ArrowRight,
+  Phone,
+  Mail,
+  ChevronDown,
+  Sun,
+} from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
+import { cn } from "@/lib/utils"
 
 export default function Home() {
   return (
     <div className=" flex flex-col w-full items-center">
-      <header className="h-15 w-screen bg-white fixed z-10 justify-between items-center flex px-[5%]">
-        <div className="flex gap-2">
-          <Film />
-          <h1>Batflix</h1>
-        </div>
-        <div className="flex w-21 justify-between">
-          <Button variant="outline" size="icon" aria-label="Submit">
-            <Search />
-          </Button>
-          <Button variant="outline" size="icon" aria-label="Submit">
-            <Moon />
-          </Button>
-        </div>
-      </header>
+      <Heads />
       <NowPlaying />
       <Cards />
+      <Footer />
     </div>
   );
 }
+
+const Heads = () => {
+  const [isDark, setIsDark] = useState(false)
+  useEffect(() => {
+    const saved = localStorage.getItem("theme")
+    if (saved === "dark") {
+      setIsDark(true)
+      document.documentElement.classList.add("dark")
+    } else {
+      setIsDark(false)
+      document.documentElement.classList.remove("dark")
+    }
+  }, [])
+
+  const toggleDarkMode = () => {
+    if (isDark) {
+      document.documentElement.classList.remove("dark")
+      localStorage.setItem("theme", "light")
+      setIsDark(false)
+    } else {
+      document.documentElement.classList.add("dark")
+      localStorage.setItem("theme", "dark")
+      setIsDark(true)
+    }
+  }
+
+  return (
+    <header className={cn("h-15 w-screen fixed z-10 justify-between items-center flex px-[5%]", isDark ? "bg-black" : "bg-white") }>
+      <div className="flex text-indigo-700 gap-2">
+        <Film className="font-extralight" />
+        <h1 className="text-base font-bold">Batflix</h1>
+      </div>
+      <div className="flex gap-3 px-2 h-9 max-sm:hidden">
+        <Button
+          variant="outline"
+          className="h-full"
+          size="default"
+          aria-label="Submit"
+        >
+          <ChevronDown />
+          Genre
+        </Button>
+        <div className="relative w-90">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+          <input
+            placeholder="Search..."
+            className="h-full w-full rounded-md border pl-10"
+          />
+        </div>
+      </div>
+      <div className="flex w-21 justify-between">
+        <Button variant="outline" className="sm:hidden" size="icon" aria-label="Submit">
+          <Search />
+        </Button>
+        <Button variant="outline" size="icon" aria-label="Submit" onClick={toggleDarkMode}>
+         {isDark ? <Sun /> : <Moon />}
+        </Button>
+      </div>
+    </header>
+  );
+};
+
+const Footer = () => {
+  return (
+    <div className="px-5 sm:px-20 sm:py-10 flex-col sm:flex-row sm:justify-between py-10 w-full bg-indigo-700 text-white flex">
+      <div className="flex flex-col gap-3 mb-7">
+        <div className="flex text-white gap-2">
+          <Film className="font-extralight" />
+          <h1 className="text-base font-bold">Batflix</h1>
+        </div>
+        <div>
+          <h1 className="text-[14px]">© 2026 Batflix. All Rights Reserved.</h1>
+        </div>
+      </div>
+      <div className="flex justify-between">
+        <div>
+          <h1 className="mb-3">Contact Information</h1>
+          <div className="flex items-center mb-6">
+            <Mail className="h-4 mr-3" />
+            <div>
+              <h1>Email:</h1>
+              <p>support@batflix.com</p>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <Phone className="h-4 mr-3" />
+            <div>
+              <h1>Phone:</h1>
+              <p>+976 (11) 123-4567</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col w-28 sm:w-1/2 gap-3">
+          <h1 className="text-lg">Follow us~</h1>
+          <div className="flex flex-wrap sm:flex-row gap-3">
+            <a href="">Facebook</a>
+            <a href="">Instagram</a>
+            <a href="">Twitter</a>
+            <a href="">Youtube</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Cards = () => {
   const movieCardArr = [
@@ -113,7 +218,7 @@ const Cards = () => {
       <div className="lg:max-w-7xl">
         <header className="flex flex-row items-center justify-between mb-8">
           <h1 className="text-xl font-semibold text-foreground sm:text-2xl">
-            Upcomming
+            Upcoming
           </h1>
           <Button variant={null}>
             See More
@@ -130,11 +235,16 @@ const Cards = () => {
                   className="w-full object-cover aspect-2/3"
                 />
                 <div className="h-19 p-2 bg-[#F4F4F5]">
-                  <div className="text-lg flex items-center font-semibold">
-                    ⭐{card.rating}
-                    <p className="text-[#71717A] text-base">/10</p>
+                  <div className="text-xs sm:text-sm flex items-center font-semibold">
+                    <img
+                      src="/star.png"
+                      alt="star"
+                      className="h-4 aspect-square"
+                    />
+                    {card.rating}
+                    <p className="text-[#71717A] text-xs">/10</p>
                   </div>
-                  <h1>{card.name}</h1>
+                  <h1 className="text-sm">{card.name}</h1>
                 </div>
               </div>
             ))}
@@ -199,13 +309,13 @@ const NowPlaying = () => {
                         {movie.name}
                       </span>
                     </div>
-                    <div className="text-lg flex items-center font-semibold">
-                      ⭐{movie.rating}
+                    <div className="text-lg flex items-center gap-0.5 font-semibold">
+                      <img src="/star.png" alt="star" className="h-7 aspect-square"/>{movie.rating}
                       <p className="text-[#71717A] text-base">/10</p>
                     </div>
                   </div>
                   <span className="text-xs sm:text-white">{movie.desc}</span>
-                  <Button className="w-36.25 h-10 sm:bg-white sm:text-black">
+                  <Button className="w-36.25 h-10 sm:hover:text-white sm:bg-white sm:text-black">
                     <Play />
                     Watch Trailer
                   </Button>
