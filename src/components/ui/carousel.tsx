@@ -189,7 +189,8 @@ function CarouselPrevious({
         orientation === "horizontal"
           ? "top-1/2 left-1/20 -translate-y-1/2"
           : "-top-12 -translate-x-1/2 rotate-90",
-        className
+        className,
+        canScrollPrev === false ? "hidden" : "absolute"
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
@@ -219,7 +220,8 @@ function CarouselNext({
         orientation === "horizontal"
           ? "top-1/2 right-1/20 -translate-y-1/2"
           : "-bottom-12 -translate-x-1/2 rotate-90",
-        className
+        className,
+        canScrollNext === false ? "hidden" : "absolute"
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
