@@ -9,37 +9,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  Play,
-} from "lucide-react";
+import { Play } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
+import { Movie } from "../page";
+import { CardType } from "./Cards";
 
-
-export const NowPlaying = () => {
-  const movieArr = [
-    {
-      img: "https://m.media-amazon.com/images/M/MV5BMjVhOGIxYWYtNGFmMC00OGEyLThmOWUtOWEzODU2ZjM3MWQyXkEyXkFqcGc@._V1_QL75_UX290_.jpg",
-      id: 1,
-      rating: 6.5,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, excepturi ipsa? Recusandae earum ipsum omnis, modi quidem consequatur rerum ut quaerat dolore, voluptatum ea consequuntur tenetur quo fuga! Omnis, culpa.",
-      name: "Jangum-sama",
-    },
-    {
-      img: "/jangum.jpg",
-      id: 2,
-      rating: 6.5,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, excepturi ipsa? Recusandae earum ipsum omnis, modi quidem consequatur rerum ut quaerat dolore, voluptatum ea consequuntur tenetur quo fuga! Omnis, culpa.",
-      name: "Jangum-sama",
-    },
-    {
-      img: "/jangum.jpg",
-      id: 3,
-      rating: 6.5,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, excepturi ipsa? Recusandae earum ipsum omnis, modi quidem consequatur rerum ut quaerat dolore, voluptatum ea consequuntur tenetur quo fuga! Omnis, culpa.",
-      name: "Jangum-sama",
-    },
-  ];
-
+export const NowPlaying = ({ movies }: CardType) => {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false }),
   );
@@ -52,11 +27,11 @@ export const NowPlaying = () => {
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {movieArr.map((movie) => (
+        {movies.map((movie: Movie) => (
           <CarouselItem key={movie.id}>
             <div className="sm:aspect-12/5">
               <img
-                src={movie.img}
+                src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                 alt=""
                 className="flex flex-col w-full object-cover h-61.5 sm:h-full sm:absolute sm:-z-10"
               />
@@ -66,7 +41,7 @@ export const NowPlaying = () => {
                     <div>
                       <p className="text-lg">Now Playing:</p>
                       <span className="text-2xl font-semibold">
-                        {movie.name}
+                        {movie.original_title}
                       </span>
                     </div>
                     <div className="text-lg flex items-center gap-0.5 font-semibold">
@@ -75,11 +50,13 @@ export const NowPlaying = () => {
                         alt="star"
                         className="h-7 aspect-square"
                       />
-                      {movie.rating}
+                      {movie.vote_average}
                       <p className="text-[#71717A] text-base">/10</p>
                     </div>
                   </div>
-                  <span className="text-xs sm:text-white">{movie.desc}</span>
+                  <span className="text-xs sm:text-white">
+                    {movie.overview}
+                  </span>
                   <Button className="w-36.25 h-10 cursor-pointer dark:hover:bg-black sm:hover:text-white sm:bg-white sm:text-black">
                     <Play />
                     Watch Trailer
