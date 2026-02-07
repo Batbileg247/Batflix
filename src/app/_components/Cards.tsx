@@ -9,11 +9,11 @@ export type CardType = {
   movies: Movie[];
   name: string;
   ontoggle: boolean;
+  setMovies: (movies: Movie[]) => void
 };
 
-export const Cards = ({ movies, name, ontoggle }: CardType) => {
-
-const newMovies = ontoggle ? movies.slice(0, 10) : movies;
+export const Cards = ({ movies, name, ontoggle, setMovies }: CardType) => {
+  const newMovies = ontoggle ? movies.slice(0, 10) : movies;
 
   return (
     <div className="mx-auto w-full px-4 py-8 sm:px-6 sm:py-10 flex flex-col items-center">
@@ -22,7 +22,11 @@ const newMovies = ontoggle ? movies.slice(0, 10) : movies;
           <h1 className="text-xl font-semibold text-foreground sm:text-2xl">
             {name}
           </h1>
-          <Link href={`/${name}`} className={`flex gap-2 ${ontoggle ? "block" : "hidden"}`}>
+          <Link
+            href={`/movies`}
+            className={`flex gap-2 ${ontoggle ? "block" : "hidden"}`}
+            onClick={()=>{setMovies(movies)}}
+          >
             <p>See more</p> <ArrowRight />
           </Link>
         </header>
@@ -50,7 +54,7 @@ const newMovies = ontoggle ? movies.slice(0, 10) : movies;
                       alt="star"
                       className="h-4 aspect-square block dark:hidden"
                     />
-                    <p className="">{movie.vote_average}</p>
+                    <p className="">{movie.vote_average.toFixed(1)}</p>
                     <p className="text-[#71717A] text-xs">/10</p>
                   </div>
                   <h1 className="text-sm">{movie.original_title}</h1>

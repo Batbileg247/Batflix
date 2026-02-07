@@ -7,13 +7,13 @@ import { datas } from "../../../utils/getData";
 import { PaginationDemo } from "../_components/Pagnition";
 
 export default function Home() {
-  const [popular, setpopular] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
     const fetchedMovies = async () => {
-      const popular = await datas("popular", pageNum);
-      setpopular(popular.results);
+      const typeOf = await datas(`${movies}`, `&page=${pageNum}`);
+      setMovies(typeOf.results);
     };
 
     fetchedMovies();
@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col pt-10 w-full pb-19 items-center">
-      <Cards movies={popular} name="Popular" ontoggle={false} />
+      <Cards movies={movies} name="Upcoming" ontoggle={false} setMovies={setMovies} />
       <PaginationDemo page={pageNum} setPage={setPageNum} />
     </div>
   );

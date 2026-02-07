@@ -6,25 +6,32 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 
 type PaginationProps = {
-  page: number
-  setPage: (page: number) => void
-}
+  page: number;
+  setPage: (page: number) => void;
+};
 
 export function PaginationDemo({ page, setPage }: PaginationProps) {
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            onClick={() => setPage(Math.max(page - 1, 1))}
-          />
+        <PaginationItem
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+        >
+          <PaginationPrevious onClick={() => setPage(Math.max(page - 1, 1))} />
         </PaginationItem>
 
         {[1, 2, 3].map((num) => (
-          <PaginationItem key={num}>
+          <PaginationItem
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+            key={num}
+          >
             <PaginationLink
               isActive={page === num}
               onClick={() => setPage(num)}
@@ -34,16 +41,22 @@ export function PaginationDemo({ page, setPage }: PaginationProps) {
           </PaginationItem>
         ))}
 
-        <PaginationItem>
+        <PaginationItem
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+        >
           <PaginationEllipsis />
         </PaginationItem>
 
-        <PaginationItem>
-          <PaginationNext
-            onClick={() => setPage(page + 1)}
-          />
+        <PaginationItem
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+        >
+          <PaginationNext onClick={() => setPage(page + 1)} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
-  )
+  );
 }

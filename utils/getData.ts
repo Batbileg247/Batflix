@@ -1,6 +1,6 @@
-export const datas = async (category: string, pageNum: number) => {
+export const datas = async (category: string, pageNum: string) => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${pageNum}`,
+    `https://api.themoviedb.org/3/movie/${category}?language=en-US${pageNum}`,
     {
       method: "GET",
       headers: {
