@@ -7,21 +7,21 @@ import { datas } from "../../../utils/getData";
 import { PaginationDemo } from "../_components/Pagnition";
 
 export default function Home() {
-  const [popular, setpopular] = useState<Movie[]>([]);
+  const [topRated, setTopRated] = useState<Movie[]>([]);
   const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
     const fetchedMovies = async () => {
-      const popular = await datas("popular", pageNum);
-      setpopular(popular.results);
+      const topRated = await datas("top_rated", pageNum);
+      setTopRated(topRated.results);
     };
-
+    
     fetchedMovies();
   }, [pageNum]);
 
   return (
     <div className="flex flex-col pt-10 w-full pb-19 items-center">
-      <Cards movies={popular} name="Popular" ontoggle={false} />
+      <Cards movies={topRated} name="Top_rated" ontoggle={false} />
       <PaginationDemo page={pageNum} setPage={setPageNum} />
     </div>
   );

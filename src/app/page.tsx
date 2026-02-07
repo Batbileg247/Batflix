@@ -16,6 +16,8 @@ export type Movie = {
 };
 
 export default function Home() {
+  
+
   const [nowPlaying, setNowPlaying] = useState<Movie[]>([]);
   const [upcoming, setUpcoming] = useState<Movie[]>([]);
   const [popular, setPopular] = useState<Movie[]>([]);
@@ -23,17 +25,17 @@ export default function Home() {
 
   useEffect(() => {
     const fetchedMovies = async () => {
-      const nowplaying = await datas("nowplaying");
+      const nowplaying = await datas("now_playing", 1);
       setNowPlaying(nowplaying.results);
 
-      const upcoming = await datas("upcoming");
+      const upcoming = await datas("upcoming", 1);
       setUpcoming(upcoming.results);
 
-      const popular = await datas("upcoming");
-      setPopular(popular.results);
+      const popularData = await datas("popular", 1);
+      setPopular(popularData.results);
 
-      const topRated = await datas("upcoming");
-      setTopRated(topRated.results);
+      const topRatedData = await datas("top_rated", 1);
+      setTopRated(topRatedData.results);
     };
     fetchedMovies();
   }, []);
@@ -42,10 +44,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full items-center">
-      <NowPlaying movies={nowPlaying} />
-      <Cards movies={upcoming} />
-      <Cards movies={popular} />
-      <Cards movies={topRated} />
+      <NowPlaying movies={nowPlaying} name="" ontoggle={false} />
+      <Cards movies={upcoming} name="Upcoming" ontoggle={true} />
+      <Cards movies={popular} name="Popular" ontoggle={true} />
+      <Cards movies={topRated} name="Top_rated" ontoggle={true}/>
     </div>
   );
 }

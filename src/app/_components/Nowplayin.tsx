@@ -16,7 +16,7 @@ import { CardType } from "./Cards";
 
 export const NowPlaying = ({ movies }: CardType) => {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false }),
+    Autoplay({ delay: 2000, stopOnInteraction: true }),
   );
 
   return (
@@ -57,7 +57,7 @@ export const NowPlaying = ({ movies }: CardType) => {
                   <span className="text-xs sm:text-white">
                     {movie.overview}
                   </span>
-                  <Button className="w-36.25 h-10 cursor-pointer dark:hover:bg-black sm:hover:text-white sm:bg-white sm:text-black">
+                  <Button variant="outline" className="w-36.25 h-10 cursor-pointer">
                     <Play />
                     Watch Trailer
                   </Button>
