@@ -11,10 +11,14 @@ import {
 } from "@/components/ui/carousel";
 import { Play } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
-import { Movie } from "../page";
 import { CardType } from "./Cards";
+import { Movie } from "../page";
 
-export const NowPlaying = ({ movies }: CardType) => {
+type NowPlayingProps = {
+  movies: Movie[];
+};
+
+export const NowPlaying = ({ movies }: NowPlayingProps) => {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false }),
   );
@@ -27,7 +31,7 @@ export const NowPlaying = ({ movies }: CardType) => {
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {movies.map((movie: Movie) => (
+        {movies.map((movie) => (
           <CarouselItem key={movie.id}>
             <div className="sm:aspect-12/5 ">
               <img
@@ -39,7 +43,9 @@ export const NowPlaying = ({ movies }: CardType) => {
                 <div className="flex flex-col sm:w-101 gap-4 p-5">
                   <div className="flex sm:text-white max-sm:items-center justify-between sm:flex-col">
                     <div>
-                      <p className="text-lg sm:text-shadow-[0px_0px_10px_rgba(0,0,0,0.6)]">Now Playing:</p>
+                      <p className="text-lg sm:text-shadow-[0px_0px_10px_rgba(0,0,0,0.6)]">
+                        Now Playing:
+                      </p>
                       <span className="text-2xl sm:text-shadow-[0px_0px_10px_rgba(0,0,0,0.6)] font-semibold">
                         {movie.original_title}
                       </span>
@@ -51,13 +57,18 @@ export const NowPlaying = ({ movies }: CardType) => {
                         className="h-7 aspect-square "
                       />
                       {movie.vote_average.toFixed(1)}
-                      <p className="text-[#d4d4d4] sm:text-shadow-[0px_0px_5px_rgba(0,0,0,1)] text-base">/10</p>
+                      <p className="text-[#d4d4d4] sm:text-shadow-[0px_0px_5px_rgba(0,0,0,1)] text-base">
+                        /10
+                      </p>
                     </div>
                   </div>
                   <span className="text-xs sm:text-shadow-[0px_0px_5px_rgba(0,0,0,1)] sm:text-white">
                     {movie.overview}
                   </span>
-                  <Button variant="outline" className="w-36.25 sm:shadow-[0px_0px_10px_rgba(0,0,0,0.2)] backdrop-brightness-80 dark:backdrop-blur-sm h-10 cursor-pointer">
+                  <Button
+                    variant="outline"
+                    className="w-36.25 sm:shadow-[0px_0px_10px_rgba(0,0,0,0.2)] backdrop-brightness-80 dark:backdrop-blur-sm h-10 cursor-pointer"
+                  >
                     <Play />
                     Watch Trailer
                   </Button>

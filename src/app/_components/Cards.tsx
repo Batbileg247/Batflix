@@ -1,19 +1,19 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Movie } from "../page";
+import { Dispatch, SetStateAction } from "react";
 
 export type CardType = {
   movies: Movie[];
   name: string;
   ontoggle: boolean;
-  setMovies: (movies: Movie[]) => void
+  setMovies: Dispatch<SetStateAction<Movie[]>>;
 };
 
 export const Cards = ({ movies, name, ontoggle, setMovies }: CardType) => {
-  const newMovies = ontoggle ? movies.slice(0, 10) : movies;
+  const newMovies = ontoggle ? movies?.slice(0, 10) || [] : movies || [];
 
   return (
     <div className="mx-auto w-full px-4 py-8 sm:px-6 sm:py-10 flex flex-col items-center">
@@ -23,9 +23,9 @@ export const Cards = ({ movies, name, ontoggle, setMovies }: CardType) => {
             {name}
           </h1>
           <Link
-            href={`/movies`}
+            href={`/upcoming`}
             className={`flex gap-2 ${ontoggle ? "block" : "hidden"}`}
-            onClick={()=>{setMovies(movies)}}
+            onClick={() => setMovies(movies)}
           >
             <p>See more</p> <ArrowRight />
           </Link>
@@ -36,6 +36,7 @@ export const Cards = ({ movies, name, ontoggle, setMovies }: CardType) => {
               <button
                 className="rounded-lg cursor-pointer transition-all hover:scale-102 overflow-hidden w-full"
                 key={movie.id}
+                name={name}
               >
                 <img
                   src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}

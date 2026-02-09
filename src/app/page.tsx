@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Cards } from "./_components/Cards";
 import { NowPlaying } from "./_components/Nowplayin";
-import { useMovieData } from "@/hooks/useMovieData";
+import { datas } from "../../utils/getData";
 
 export type Movie = {
   movie: string;
@@ -15,33 +16,50 @@ export type Movie = {
 };
 
 export default function Home() {
-   const { nowPlaying, upcoming, popular, topRated } = useMovieData();
+  const [nowPlaying, setNowPlaying] = useState<Movie[]>([]);
+  const [upcoming, setUpcoming] = useState<Movie[]>([]);
+  const [popular, setPopular] = useState<Movie[]>([]);
+  const [topRated, setTopRated] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    const fetchedMovies = async () => {
+      const nowPlaying = await datas(`now_playing`, `&page=1`);
+      setNowPlaying(nowPlaying.results);
+
+      const upcoming = await datas(`upcoming`, `&page=1`);
+      setUpcoming(upcoming.results);
+
+      const popular = await datas(`popular`, `&page=1`);
+      setPopular(popular.results);
+
+      const topRated = await datas(`top_rated`, `&page=1`);
+      setTopRated(topRated.results);
+    };
+
+    fetchedMovies();
+  }, []);
+  console.log(nowPlaying, upcoming, popular, topRated);
 
   return (
     <div className="flex flex-col w-full items-center">
-      <NowPlaying
-        movies={nowPlaying}
-        name=""
-        ontoggle={false}
-        setMovies={setMovies}
-      />
+      <NowPlaying movies={nowPlaying} />
       <Cards
         movies={upcoming}
         name="Upcoming"
         ontoggle={true}
-        setMovies={setMovies}
+        setMovies={setUpcoming}
       />
       <Cards
         movies={popular}
         name="Popular"
         ontoggle={true}
-        setMovies={setMovies}
+        setMovies={setPopular}
       />
       <Cards
         movies={topRated}
-        name="Top_rated"
+        name="Top rated"
         ontoggle={true}
-        setMovies={setMovies}
+        setMovies={setTopRated}
       />
     </div>
   );
