@@ -1,7 +1,4 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
-import * as React from "react";
 import {
   Carousel,
   CarouselContent,
@@ -10,25 +7,17 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Play } from "lucide-react";
-import Autoplay from "embla-carousel-autoplay";
-import { CardType } from "./Cards";
-import { Movie } from "../page";
+import { Movie } from "../../../utils/getData";
 
 type NowPlayingProps = {
   movies: Movie[];
 };
 
 export const NowPlaying = ({ movies }: NowPlayingProps) => {
-  const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false }),
-  );
 
   return (
     <Carousel
-      plugins={[plugin.current]}
       className="w-full pt-15 sm:rounded-2xl lg:rounded-4xl overflow-hidden lg:max-w-360"
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
         {movies.map((movie) => (

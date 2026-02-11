@@ -1,19 +1,15 @@
-"use client";
-
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Movie } from "../page";
-import { Dispatch, SetStateAction } from "react";
+import { Movie } from "../../../utils/getData";
 
 export type CardType = {
-  movies: Movie[];
+  movies: Movie[] ;
   name: string;
   ontoggle: boolean;
-  setMovies: Dispatch<SetStateAction<Movie[]>>;
 };
 
-export const Cards = ({ movies, name, ontoggle, setMovies }: CardType) => {
-  const newMovies = ontoggle ? movies?.slice(0, 10) || [] : movies || [];
+export const Cards = ({ movies, name, ontoggle }: CardType) => {
+  const newMovies = ontoggle ? movies?.slice(0, 10) : movies;
 
   return (
     <div className="mx-auto w-full px-4 py-8 sm:px-6 sm:py-10 flex flex-col items-center">
@@ -23,9 +19,8 @@ export const Cards = ({ movies, name, ontoggle, setMovies }: CardType) => {
             {name}
           </h1>
           <Link
-            href={`/upcoming`}
+            href={`/${name.toLocaleLowerCase().replaceAll(" ", "_")}`}
             className={`flex gap-2 ${ontoggle ? "block" : "hidden"}`}
-            onClick={() => setMovies(movies)}
           >
             <p>See more</p> <ArrowRight />
           </Link>
@@ -33,13 +28,13 @@ export const Cards = ({ movies, name, ontoggle, setMovies }: CardType) => {
         <div className="w-full items-center">
           <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:gap-5 md:grid-cols-4 lg:gap-6 lg:grid-cols-5">
             {newMovies.map((movie) => (
-              <button
+              <Link
+                href={`/movie-details/${movie.id}`}
                 className="rounded-lg cursor-pointer transition-all hover:scale-102 overflow-hidden w-full"
                 key={movie.id}
-                name={name}
               >
                 <img
-                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.original_title}
                   className="w-full object-cover aspect-2/3"
                 />
@@ -60,7 +55,7 @@ export const Cards = ({ movies, name, ontoggle, setMovies }: CardType) => {
                   </div>
                   <h1 className="text-sm">{movie.original_title}</h1>
                 </div>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
