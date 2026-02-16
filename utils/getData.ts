@@ -30,7 +30,7 @@ export interface Movie {
 
 export const getMovies = async (
   category: string,
-  pageNum: number,
+  pageNum: string,
 ): Promise<MoviesRespose> => {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${pageNum}`,
@@ -46,11 +46,11 @@ export const getMovies = async (
   return data;
 };
 
-export const getHomePageMovies = async () => {
-  const { results: upcoming } = await getMovies("upcoming", 1);
-  const { results: popular } = await getMovies("popular", 1);
-  const { results: top_rated } = await getMovies("top_rated", 1);
-  const { results: now_playing } = await getMovies("now_playing", 1);
+export const getHomePageMovies = async (pageNumber: string) => {
+  const { results: upcoming } = await getMovies("upcoming", pageNumber);
+  const { results: popular } = await getMovies("popular", pageNumber);
+  const { results: top_rated } = await getMovies("top_rated", pageNumber);
+  const { results: now_playing } = await getMovies("now_playing", pageNumber);
 
   return {
     now_playing,

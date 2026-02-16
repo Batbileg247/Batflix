@@ -30,7 +30,7 @@ export const Genres = async () => {
         </DropdownMenuGroup>
         <DropdownMenuGroup className="flex gap-4 flex-wrap pt-4">
           {genres.map((genre) => (
-            <Link key={genre.id} href={`/`}>
+            <Link key={genre.id} href={`/genre/${genre.id}`}>
               <Badge
                 variant="outline"
                 className="flex items-center gap-1 cursor-pointer"

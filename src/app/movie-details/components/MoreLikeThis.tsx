@@ -13,7 +13,7 @@ export const MoreLikeThis = ({ movies, name, ontoggle, id }: MoreLikeThis) => {
   const newMovies = ontoggle ? movies?.slice(0, 5) : movies;
 
   return (
-    <div className="mx-auto w-full px-4 py-8 sm:px-6 sm:py-10 flex flex-col items-center">
+    <div className="px-4 py-8 sm:px-6 sm:py-10">
       <div className="lg:max-w-7xl">
         <header className="flex flex-row items-center justify-between mb-8">
           <h1 className="text-xl font-semibold text-foreground sm:text-2xl">
