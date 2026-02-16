@@ -1,14 +1,17 @@
 import { Badge } from "@/components/ui/badge";
-import {  MovieDetails } from "../../../../utils/get-movie-by-id";
+import { MovieDetails } from "../../../../utils/get-movie-by-id";
 import { Credits } from "./Credits";
 import { getCreditsInfoById } from "../../../../utils/get-credits";
+import { Button } from "@/components/ui/button";
+import { Play } from "lucide-react";
+import { WatchTrailer } from "@/app/_components/WatchTrailer";
 
 type MovieDetailProps = {
   movie: MovieDetails;
 };
 
 export const MovieDetailsSection = async ({ movie }: MovieDetailProps) => {
-    const credits = await getCreditsInfoById(movie.id);
+  const credits = await getCreditsInfoById(movie.id);
 
   const formattedDate =
     movie?.release_date?.toString().replaceAll("-", ".") ?? "N/A";
@@ -53,18 +56,21 @@ export const MovieDetailsSection = async ({ movie }: MovieDetailProps) => {
           alt={movie.original_title}
           className="w-1/4 h-full object-cover"
         />
-        <div>
+        <div className="relative">
           <img
             src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
             alt=""
-            className="w-full self-center object-contain"
+            className="brightness-50 object-cover"
           />
+          <WatchTrailer />
         </div>
       </section>
       <footer className="w-270">
         <div className="flex gap-3">
           {movie.genres.map((genre) => (
-            <Badge key={genre.id} variant="secondary">{genre.name}</Badge>
+            <Badge key={genre.id} variant="secondary">
+              {genre.name}
+            </Badge>
           ))}
         </div>
         <div>{movie.overview}</div>

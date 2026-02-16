@@ -1,6 +1,7 @@
-import { Cards } from "@/app/_components/Cards";
 import { getMovieById } from "../../../../utils/get-movie-by-id";
 import { MovieDetailsSection } from "../components/MovieDetail";
+import { MoreLikeThis } from "../components/MoreLikeThis";
+import { getSimiliarMovies } from "../../../../utils/get-more-like";
 
 const MovieDetailPageLaoder = async ({
   params,
@@ -9,11 +10,17 @@ const MovieDetailPageLaoder = async ({
 }) => {
   const { movieId } = await params;
   const movie = await getMovieById(movieId);
+  const { results } = await getSimiliarMovies(movieId, "1");
 
   return (
-    <div>
+    <div className="pb-20">
       <MovieDetailsSection movie={movie} />
-      {/* <Cards movies={movieId} name="Upcoming" ontoggle={false}/> */}
+      <MoreLikeThis
+        movies={results}
+        name="More like this"
+        ontoggle={true}
+        id={movieId}
+      />
     </div>
   );
 };
