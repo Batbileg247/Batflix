@@ -46,6 +46,8 @@ export const getMovies = async (
   return data;
 };
 
+
+
 export const getHomePageMovies = async (pageNumber: string) => {
   const { results: upcoming } = await getMovies("upcoming", pageNumber);
   const { results: popular } = await getMovies("popular", pageNumber);
@@ -57,5 +59,6 @@ export const getHomePageMovies = async (pageNumber: string) => {
     upcoming,
     popular,
     top_rated,
+    pageNumber
   };
 };

@@ -3,7 +3,8 @@ import { NowPlaying } from "./_components/Nowplayin";
 import { getHomePageMovies } from "../../utils/getData";
 
 export default async function Home() {
-  const { upcoming, popular, top_rated, now_playing } = await getHomePageMovies();
+  const { upcoming, popular, top_rated, now_playing, pageNumber } =
+    await getHomePageMovies("1");
 
   return (
     <div className="flex flex-col w-full items-center">
