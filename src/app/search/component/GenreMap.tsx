@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight, X } from "lucide-react";
@@ -27,7 +25,7 @@ export const GenreMap = ({
           : [...(currentGenreIds || []), genre.id];
         const newGenres = filterNewGenres?.filter((genre) => genre !== "");
         return (
-          <Link key={genre.id} href={`/genre?genre=${newGenres} `}>
+          <Link key={genre.id} href={`/search?genre=${newGenres} `}>
             <Badge
               variant={isSelected ? "default" : "outline"}
               className="flex items-center gap-1 cursor-pointer"

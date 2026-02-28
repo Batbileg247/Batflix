@@ -46,7 +46,7 @@ export const Genres = ({ setOpen }: GenresProps) => {
         return (
           <Link
             key={genre.id}
-            href={`/genre?genre=${newGenres?.join(",")}`}
+            href={`/search?genre=${newGenres?.join(",")}`}
             onClick={() => setOpen(false)}
           >
             <Badge

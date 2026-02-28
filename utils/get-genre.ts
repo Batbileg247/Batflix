@@ -18,7 +18,7 @@ export interface GetGenres {
 }
 
 export interface Genre {
-  id: string
+  id: number
   name: string
 }
 

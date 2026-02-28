@@ -10,8 +10,8 @@ type MoreLikeThis = {
 };
 
 export const MoreLikeThis = ({ movies, name, ontoggle, id }: MoreLikeThis) => {
-  const newMovies = ontoggle ? movies?.slice(0, 5) : movies;
-
+  const filteredMovie = movies.filter((m) => m.poster_path !== null);
+  const newMovies = ontoggle ? filteredMovie?.slice(0, 5) : filteredMovie;
   return (
     <div className="px-4 py-8 sm:px-6 sm:py-10">
       <div className="lg:max-w-7xl">
@@ -27,38 +27,46 @@ export const MoreLikeThis = ({ movies, name, ontoggle, id }: MoreLikeThis) => {
           </Link>
         </header>
         <div className="w-full items-center">
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:gap-5 md:grid-cols-4 lg:gap-6 lg:grid-cols-5">
-            {newMovies.map((movie) => (
-              <Link
-                href={`/movie-details/${movie.id}`}
-                className="rounded-lg cursor-pointer transition-all hover:scale-102 overflow-hidden w-full"
-                key={movie.id}
-              >
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.original_title}
-                  className="w-full object-cover aspect-2/3"
-                />
-                <div className="h-19 p-2 flex flex-col items-start bg-[#F4F4F5] dark:bg-[#27272A]">
-                  <div className="text-xs sm:text-sm flex items-center font-semibold">
+          {newMovies.length === 0 ? (
+            <h1 className="text-2xl w-full flex font-bold">
+              No available results.
+            </h1>
+          ) : (
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:gap-5 md:grid-cols-4 lg:gap-6 lg:grid-cols-5">
+              {newMovies.map((movie) => {
+                return (
+                  <Link
+                    href={`/movie-details/${movie.id}`}
+                    className="rounded-lg cursor-pointer transition-all hover:scale-102 overflow-hidden w-full"
+                    key={movie.id}
+                  >
                     <img
-                      src="/starwhite.png"
-                      alt="star"
-                      className="h-4 aspect-square hidden dark:block"
+                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                      alt={movie.original_title}
+                      className="w-full object-cover aspect-2/3"
                     />
-                    <img
-                      src="/star.png"
-                      alt="star"
-                      className="h-4 aspect-square block dark:hidden"
-                    />
-                    <p className="">{movie.vote_average.toFixed(1)}</p>
-                    <p className="text-[#71717A] text-xs">/10</p>
-                  </div>
-                  <h1 className="text-sm">{movie.original_title}</h1>
-                </div>
-              </Link>
-            ))}
-          </div>
+                    <div className="h-19 p-2 flex flex-col items-start bg-[#F4F4F5] dark:bg-[#27272A]">
+                      <div className="text-xs sm:text-sm flex items-center font-semibold">
+                        <img
+                          src="/starwhite.png"
+                          alt="star"
+                          className="h-4 aspect-square hidden dark:block"
+                        />
+                        <img
+                          src="/star.png"
+                          alt="star"
+                          className="h-4 aspect-square block dark:hidden"
+                        />
+                        <p className="">{movie.vote_average.toFixed(1)}</p>
+                        <p className="text-[#71717A] text-xs">/10</p>
+                      </div>
+                      <h1 className="text-sm">{movie.original_title}</h1>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
