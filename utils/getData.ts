@@ -49,9 +49,9 @@ export const getMovies = async (
 
 
 export const getHomePageMovies = async (pageNumber: string) => {
-  const { results: upcoming } = await getMovies("upcoming", pageNumber);
-  const { results: popular } = await getMovies("popular", pageNumber);
-  const { results: top_rated } = await getMovies("top_rated", pageNumber);
+  const { results: upcoming, total_pages: upcomingPageNum } = await getMovies("upcoming", pageNumber);
+  const { results: popular, total_pages: popularPageNum } = await getMovies("popular", pageNumber);
+  const { results: top_rated, total_pages: topRatedPageNum } = await getMovies("top_rated", pageNumber);
   const { results: now_playing } = await getMovies("now_playing", pageNumber);
 
   return {
@@ -59,6 +59,9 @@ export const getHomePageMovies = async (pageNumber: string) => {
     upcoming,
     popular,
     top_rated,
-    pageNumber
+    pageNumber,
+    upcomingPageNum,
+    popularPageNum,
+    topRatedPageNum
   };
 };

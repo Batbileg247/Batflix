@@ -15,6 +15,7 @@ export const SearchInput = () => {
   const [searchValue, setSearchValue] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
   const newMovies = movies.filter((m) => m.poster_path !== null);
+  console.log("movies: ", movies, "newMovies: ", newMovies)
 
   const onChangeSearchValue: ChangeEventHandler<HTMLInputElement> = (event) => {
     setSearchValue(event.target.value);

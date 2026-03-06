@@ -1,19 +1,53 @@
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { getHomePageMovies } from "../../../utils/getData";
 import { Cards } from "../_components/Cards";
-import { PaginationDemo } from "../_components/PaginationDemo";
 
 export default async function Home({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const page = (await searchParams).page ?? "1";
-  const { top_rated } = await getHomePageMovies(page);
+  const page = Number((await searchParams).page ?? 1);
+  const { top_rated, topRatedPageNum } = await getHomePageMovies(String(page));
+
+  const getPageNumbers = [(page > 1 ? page-1 : page), (page > 1 ? page : page+1), (page > 1 ? page+1 : page+2)]
 
   return (
     <div className="flex flex-col pt-10 w-full pb-19 items-center">
       <Cards movies={top_rated} name="Top rated" ontoggle={false} />
-      <PaginationDemo page={page} genre={"top_rated"} />
+      <>
+        <Pagination className="justify-end">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                className="dark:text-white dark:bg-neutral-900"
+                href={page > 1 ? `/top_rated?page=${page - 1}` : "#"}
+              />
+            </PaginationItem>
+            {getPageNumbers.map((pageNumber) => (
+              <PaginationItem key={pageNumber}>
+                <PaginationLink
+                  className="dark:text-white"
+                  href={`/top_rated?page=${pageNumber}`}
+                  isActive={pageNumber === page}
+                >
+                  {pageNumber}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                className="dark:text-white dark:bg-neutral-900"
+                href={
+                  page < topRatedPageNum
+                    ? `/top_rated?page=${page + 1}`
+                    : "#"
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </>
     </div>
   );
 }

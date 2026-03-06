@@ -3,6 +3,14 @@ import { getMovieByGenre } from "../../../utils/get-movies-by-genre";
 import { getGenre } from "../../../utils/get-genre";
 import { GenreMap } from "./component/GenreMap";
 import { getSearchValue } from "../../../utils/get-search";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const GenrePageLoader = async ({
   searchParams,
@@ -12,13 +20,17 @@ const GenrePageLoader = async ({
   const resolvedSearchParams = await searchParams;
   const genreId = resolvedSearchParams.genre ?? "";
   const searchInput = resolvedSearchParams.q ?? "";
-  const getByGenre = await getMovieByGenre(genreId, "1");
-  const getBySearch = await getSearchValue(searchInput, "1");
+  const page = Number((await searchParams).page ?? 1);
+  const getByGenre = await getMovieByGenre(genreId, String(page));
+  const getBySearch = await getSearchValue(searchInput, String(page));
   const { genres } = await getGenre();
-
   const toggle = searchInput === "";
 
   const movies = toggle ? getByGenre.results : getBySearch.results;
+
+   const total_results = toggle ? getByGenre.total_results : getBySearch.total_results
+
+  const total_pages = toggle ? getByGenre.total_pages : getBySearch.total_pages;
 
   const currentGenreIds = genreId.split(",");
 
@@ -28,13 +40,17 @@ const GenrePageLoader = async ({
     currentGenreIds.filter(
       (currentGenreId) => currentGenreId !== selectedGenreId,
     );
-  const totalResults = toggle
-    ? getByGenre.total_results
-    : getBySearch.total_results;
 
   const selectedGenreIds = currentGenreIds.map((id) => Number(id));
   const selectedGenres = genres.filter((g) => selectedGenreIds.includes(g.id));
   const activeGenreNames = selectedGenres.map((g) => g.name).join(", ");
+  const filteredMovie = movies.filter((m) => m.poster_path !== null);
+
+  const getPageNumbers = [
+    page > 1 ? page - 1 : page,
+    page > 1 ? page : page + 1,
+    page > 1 ? page + 1 : page + 2,
+  ];
 
   return (
     <div>
@@ -59,14 +75,50 @@ const GenrePageLoader = async ({
         <div>
           {toggle ? (
             <h1 className="flex px-10">
-              {totalResults} titles in “{activeGenreNames}”
+              {total_results} titles in “{activeGenreNames}”
             </h1>
           ) : (
             <h1 className="flex px-10">
-              {totalResults} results for “{searchInput}”
+              {total_results} results for “{searchInput}”
             </h1>
           )}
-          <MoreLikeThis movies={movies} name="" ontoggle={false} id="kk" />
+          <MoreLikeThis
+            movies={filteredMovie}
+            name=""
+            ontoggle={false}
+            id="kk"
+          />
+          <>
+            <Pagination className="justify-end">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    className="dark:text-white dark:bg-neutral-900"
+                    href={page > 1 ? `/search?genre=${genreId}&page=${page - 1}` : "#"}
+                  />
+                </PaginationItem>
+                {getPageNumbers.map((pageNumber) => (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      className="dark:text-white"
+                      href={`/search?genre=${genreId}&page=${pageNumber}`}
+                      isActive={pageNumber === page}
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext
+                    className="dark:text-white dark:bg-neutral-900"
+                    href={
+                      page < total_pages ? `/search?genre=${genreId}&page=${page + 1}` : "#"
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </>
         </div>
       </div>
     </div>

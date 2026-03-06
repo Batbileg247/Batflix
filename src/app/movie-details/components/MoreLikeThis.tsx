@@ -10,8 +10,8 @@ type MoreLikeThis = {
 };
 
 export const MoreLikeThis = ({ movies, name, ontoggle, id }: MoreLikeThis) => {
-  const filteredMovie = movies.filter((m) => m.poster_path !== null);
-  const newMovies = ontoggle ? filteredMovie?.slice(0, 5) : filteredMovie;
+
+  const newMovies = ontoggle ? movies?.slice(0, 5) : movies;
   return (
     <div className="px-4 py-8 sm:px-6 sm:py-10">
       <div className="lg:max-w-7xl">
