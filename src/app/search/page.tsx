@@ -89,7 +89,7 @@ const GenrePageLoader = async ({
             id="kk"
           />
           <>
-            <Pagination className="justify-end">
+            <Pagination className="flex center pb-5">
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious

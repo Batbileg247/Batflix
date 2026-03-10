@@ -25,7 +25,7 @@ export default async function Popular({
     <div className="flex flex-col pt-10 w-full pb-19 items-center">
       <Cards movies={popular} name="Popular" ontoggle={false} />
       <>
-        <Pagination className="justify-end">
+        <Pagination className="flex center pb-5">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious

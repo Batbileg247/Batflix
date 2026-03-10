@@ -16,7 +16,7 @@ export default async function Home({
     <div className="flex flex-col pt-10 w-full pb-19 items-center">
       <Cards movies={upcoming} name="Upcoming" ontoggle={false} />
       <>
-        <Pagination className="justify-end">
+        <Pagination className="flex center pb-5">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious

@@ -4,6 +4,7 @@ import { Credits } from "./Credits";
 import { getCreditsInfoById } from "../../../../utils/get-credits";
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-react";
+import { getVideosById } from "../../../../utils/get-videos";
 import { WatchTrailer } from "@/app/_components/WatchTrailer";
 
 type MovieDetailProps = {
@@ -12,6 +13,16 @@ type MovieDetailProps = {
 
 export const MovieDetailsSection = async ({ movie }: MovieDetailProps) => {
   const credits = await getCreditsInfoById(movie.id);
+  const trailers = await getVideosById(movie.id);
+
+  const trailer =
+    trailers.results.find(
+      (t) => t.site === "YouTube" && t.type === "Trailer" && t.official,
+    ) ||
+    trailers.results.find(
+      (t) => t.site === "YouTube" && t.type === "Trailer",
+    ) ||
+    trailers.results.find((t) => t.site === "YouTube");
 
   const formattedDate =
     movie?.release_date?.toString().replaceAll("-", ".") ?? "N/A";
@@ -56,14 +67,17 @@ export const MovieDetailsSection = async ({ movie }: MovieDetailProps) => {
           alt={movie.original_title}
           className="w-1/4 h-full object-cover"
         />
-        <div className="relative">
-          <img
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-            alt=""
-            className="brightness-50 object-cover"
-          />
-          <WatchTrailer />
-        </div>
+        {trailer ? (
+          <WatchTrailer movie={movie} trailer={trailer} />
+        ) : (
+          <div className="relative flex flex-col-reverse w-full">
+            <img
+              src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+              alt=""
+              className="flex flex-col w-full h-61.5 sm:h-full sm:absolute sm:-z-10"
+            />
+          </div>
+        )}
       </section>
       <footer className="w-270">
         <div className="flex gap-3">
