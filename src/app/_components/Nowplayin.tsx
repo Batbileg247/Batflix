@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Play } from "lucide-react";
+import { Play, X } from "lucide-react";
 import { Movie } from "../../../utils/getData";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -46,13 +46,26 @@ export const NowPlaying = ({ movies }: NowPlayingProps) => {
               <Link href={`/movie-details/${movie.id}`}>
                 <div className="sm:aspect-12/5 ">
                   {clicked ? (
-                    <iframe
-                      className="flex flex-col w-full object-cover h-61.5 sm:h-full sm:absolute sm:z-10"
-                      src={`https://www.youtube.com/embed/${trailer?.key}?autoplay=1&mute=0`}
-                      title={trailer?.name}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
+                    <div>
+                      <iframe
+                        className="flex flex-col w-full object-cover h-61.5 sm:h-full sm:absolute sm:z-10"
+                        src={`https://www.youtube.com/embed/${trailer?.key}?autoplay=1&mute=0`}
+                        title={trailer?.name}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                      <Button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setClicked(true);
+                        }}
+                        variant="outline"
+                        className="w-36.25 sm:shadow-[0px_0px_10px_rgba(0,0,0,0.2)] bg-red-500 backdrop-brightness-80 dark:backdrop-blur-sm h-10 cursor-pointer"
+                      >
+                        <X />
+                      </Button>
+                    </div>
                   ) : (
                     <img
                       src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
@@ -106,7 +119,7 @@ export const NowPlaying = ({ movies }: NowPlayingProps) => {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious className="max-sm:hidden backdrop-brightness-80 cursor-pointer dark:backdrop-blur-sm dark:hover:" />
+      <CarouselPrevious className="max-sm:hidden backdrop-brightness-80 cursor-pointer dark:backdrop-blur-sm" />
       <CarouselNext className="max-sm:hidden backdrop-brightness-80 cursor-pointer dark:backdrop-blur-sm" />
     </Carousel>
   );
