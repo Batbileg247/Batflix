@@ -21,7 +21,7 @@ export const NowPlaying = ({ movies }: NowPlayingProps) => {
   return (
     <Carousel className="w-full pt-15 sm:rounded-2xl lg:rounded-4xl overflow-hidden lg:max-w-360">
       <CarouselContent>
-        {movies.map((movie) => {
+        {movies?.map((movie) => {
           const [clicked, setClicked] = useState(false);
           const [trailers, setTrailers] = useState<Videos[]>([]);
           useEffect(() => {

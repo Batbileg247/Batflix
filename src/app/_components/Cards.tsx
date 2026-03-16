@@ -27,7 +27,7 @@ export const Cards = ({ movies, name, ontoggle }: CardType) => {
         </header>
         <div className="w-full items-center">
           <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:gap-5 md:grid-cols-4 lg:gap-6 lg:grid-cols-5">
-            {newMovies.map((movie) => (
+            {newMovies?.map((movie) => (
               <Link
                 href={`/movie-details/${movie.id}`}
                 className="rounded-lg cursor-pointer transition-all hover:scale-102 overflow-hidden w-full"
